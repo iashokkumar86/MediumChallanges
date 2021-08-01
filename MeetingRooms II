@@ -1,0 +1,21 @@
+
+import heapq
+class Solution(object):
+    def minMeetingRooms(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: int
+        """
+        'runtime n O(log(n))'
+        heap=[]
+        intervals.sort(key=lambda x:x[0])
+        
+        for i in intervals:
+            if heap and i[0] >=heap[0]:
+                #this means there is no overlap and can use the same meeting room
+                heapq.heapreplace(heap,i[1])
+            else:
+              #this means meeting times overlap and hence need a new meeting room
+                heapq.heappush(heap,i[1])
+        
+        return len(heap)
