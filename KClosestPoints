@@ -1,0 +1,23 @@
+import heapq
+
+class Solution(object):
+    def kClosest(self, points, K):
+        """
+        :type points: List[List[int]]
+        :type K: int
+        :rtype: List[List[int]]
+        """
+        #creating a minheap 
+        heap=[]
+        for x , y in points:
+            distance=-((x*x)+(y*y)) #this is done so that the points with the farthest dist is at the root 
+                                    #and when the length of the heap is more than k you can pop the fathest                                         #point
+            if len(heap)>=K:
+                heapq.heappush(heap,(distance,x,y))
+                heapq.heappop(heap)  #pops root from the heap
+
+            else:
+                heapq.heappush(heap,(distance,x,y))
+        
+        return [(x,y) for (distance,x,y) in heap]
+        
