@@ -1,0 +1,25 @@
+from collections import deque
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        wordList = set(wordList)
+        q=deque([[beginWord,1]])
+        charSet = {w for word in wordList for w in word}
+        while q:
+            curr,level=q.popleft()
+            
+            if curr==endWord:
+                return level
+            
+            for i in range(len(curr)):
+                for c in charSet:
+                    next_word=curr[:i]+c+curr[i+1:]
+                    if next_word in wordList:
+                        wordList.remove(next_word)
+                        q.append([next_word,level+1])
+        return 0
