@@ -1,0 +1,44 @@
+class Solution(object):
+    def orangesRotting(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        rows=len(grid)
+        cols=len(grid[0])
+        
+        rotten=deque()
+        min_elapsed=0
+        fresh_cnt=0
+        
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c]==2:
+                    rotten.append((r,c))
+                elif grid[r][c]==1:
+                    fresh_cnt+=1
+        
+        while rotten and fresh_cnt>0:
+            
+            min_elapsed+=1
+            for _ in range(len(rotten)):
+                
+                x,y=rotten.popleft()
+                
+                for dx,dy in [[1,0],[-1,0],[0,1],[0,-1]]:
+                    dxx,dyy= x + dx, y + dy
+                    
+                    if dxx < 0 or dxx >=rows or dyy <0 or dyy >= cols:
+                        continue
+                    
+                    if grid[dxx][dyy]==2 or grid[dxx][dyy]==0:
+                        continue
+                    
+                    grid[dxx][dyy]=2
+                    
+                    fresh_cnt-=1
+                    rotten.append((dxx,dyy))
+        return min_elapsed if fresh_cnt==0 else -1
+                
+                    
+        
