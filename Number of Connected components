@@ -1,0 +1,26 @@
+class Solution(object):
+    def dfs(self,node,seen):
+        seen.add(node)
+        for neighbor in self.graph[node]:
+            if neighbor not in seen:
+                self.dfs(neighbor,seen)
+        
+    def countComponents(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: int
+        """
+        count=0
+        self.seen=set()
+        self.graph=collections.defaultdict(list)
+        
+        for x,y in edges:
+            self.graph[x].append(y)
+            self.graph[y].append(x)
+        
+        for i in range(n):
+            if i not in self.seen:
+                self.dfs(i,self.seen)
+                count+=1
+        return count
