@@ -1,0 +1,24 @@
+class Solution(object):
+    def eventualSafeNodes(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[int]
+        """
+        outdegree=[0]*len(graph)
+        indegree=[[] for _ in range(len(graph))]
+        res_q=[]
+        for i in range(len(graph)):
+            outdegree[i]=len(graph[i])
+            for j in graph[i]:
+                indegree[j].append(i)
+            if outdegree[i]==0:
+                res_q.append(i)
+        
+        for term_node in res_q:
+            incoming_nodes=indegree[term_node]
+            for j in incoming_nodes:
+                outdegree[j]-=1
+                if outdegree[j]==0:
+                    res_q.append(j)
+        return sorted(res_q)
+        
