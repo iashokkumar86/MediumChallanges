@@ -1,0 +1,25 @@
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        g=[[] for _ in range(numCourses)]
+        indegree=[0]* numCourses
+        
+        for ai,bi in prerequisites:
+            g[bi].append(ai)
+            indegree[ai]+=1
+        
+        my_q=[ai for ai in range(numCourses) if indegree[ai]==0 ]
+        
+        for bi in my_q:
+            for ai in g[bi]:
+                indegree[ai]-=1
+                if indegree[ai]==0:
+                    my_q.append(ai)
+        if len(my_q)==0 or len(my_q) <numCourses:
+            return []
+        else:
+            return my_q
