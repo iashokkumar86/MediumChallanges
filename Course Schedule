@@ -1,0 +1,29 @@
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        'biai is a directed edge'
+        g=[[] for _ in range(numCourses)]
+        indegree=[0]* numCourses
+        for ai,bi in prerequisites:
+            g[bi].append(ai)
+            indegree[ai]+=1
+        
+        my_q=[]
+        for i in range(numCourses):
+            if indegree[i]==0:
+                my_q.append(i)
+        count=0
+        while my_q:
+            v=my_q.pop()
+            count+=1
+            for neighbor in g[v]:
+                indegree[neighbor]-=1
+                
+                if indegree[neighbor]==0:
+                    my_q.append(neighbor)
+       
+        return count==numCourses
