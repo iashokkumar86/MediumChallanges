@@ -1,0 +1,45 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def buildGraph(self,node):
+        if node.left:
+            self.adj[node].append(node.left)
+            self.adj[node.left].append(node)
+            self.buildGraph(node.left)
+        if node.right:
+            self.adj[node].append(node.right)
+            self.adj[node.right].append(node)
+            self.buildGraph(node.right)
+            
+    def dfs(self,node,d):
+        if d < self.k:
+            self.visited.add(node)
+            for neighbor in self.adj[node]:
+                if neighbor not in self.visited:
+                    self.dfs(neighbor,d+1)
+        
+        else:
+            self.res.append(node.val)
+            
+    
+        
+    def distanceK(self, root, target, k):
+        """
+        :type root: TreeNode
+        :type target: TreeNode
+        :type k: int
+        :rtype: List[int]
+        """
+        self.adj=collections.defaultdict(list)
+        self.res=[]
+        self.k=k
+        self.visited=set()
+        self.buildGraph(root)
+        self.dfs(target,0)
+        return self.res
+        
